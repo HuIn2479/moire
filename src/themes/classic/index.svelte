@@ -12,14 +12,14 @@
     <header class="bg-white px-8 pt-12 pb-6">
       <div class="flex flex-col md:flex-row md:items-baseline justify-between gap-4">
         <div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4">
-          <h1 class="text-[24px] font-bold tracking-tight text-gray-900 leading-tight">{config.title}</h1>
-          <p class="text-[14px] text-gray-500">{config.description}</p>
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900 leading-tight">{config.title}</h1>
+          <p class="text-gray-500">{config.description}</p>
         </div>
 
         <div class="flex items-center gap-3 self-end md:self-auto">
           {#if memoList.selectedTag}
             <button 
-              class="px-3 py-1  bg-gray-100 rounded-full text-[13px] font-medium hover:bg-gray-200 transition-colors"
+              class="px-3 py-1  bg-gray-50 rounded-full text-[13px] font-medium hover:bg-gray-100 transition-colors"
               style="color: var(--accent-color)"
               onclick={() => memoList.selectTag(null)}
             >
@@ -46,7 +46,7 @@
               [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_ol]:space-y-1
               [&_blockquote]:border-l-[3px] [&_blockquote]:border-gray-200 [&_blockquote]:pl-4 [&_blockquote]:text-gray-500 [&_blockquote]:italic [&_blockquote]:my-4
               [&_table]:w-full [&_table]:my-4 [&_table]:text-[13px]
-              [&_th]:text-left [&_th]:font-semibold [&_th]:text-gray-900 [&_th]:pb-2 [&_th]:border-b [&_th]:border-gray-200
+              [&_th]:text-left [&_th]:pr-1 [&_th]:font-semibold [&_th]:text-gray-900 [&_th]:pb-2 [&_th]:border-b [&_th]:border-gray-200
               [&_td]:py-2 [&_td]:border-b [&_td]:border-gray-100 [&_td]:text-gray-600
               [&_code]:text-[13px] [&_code]:bg-gray-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md [&_code]:text-gray-800 [&_code]:font-mono
               [&_pre]:bg-gray-50 [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:text-[13px] [&_pre]:overflow-x-auto [&_pre]:my-4 [&_pre]:border [&_pre]:border-gray-100

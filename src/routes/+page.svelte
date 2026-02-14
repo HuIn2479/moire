@@ -20,6 +20,8 @@
         loader = () => import('$themes/pixel/index.svelte');
     } else if (__MOIRE_THEME__ === 'classic') {
         loader = () => import('$themes/classic/index.svelte');
+    } else if (__MOIRE_THEME__ === 'zen') {
+        loader = () => import('$themes/zen/index.svelte');
     } else {
         loader = () => import('$themes/receipt/index.svelte');
     }

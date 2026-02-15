@@ -22,6 +22,8 @@
         loader = () => import('$themes/classic/index.svelte');
     } else if (__MOIRE_THEME__ === 'zen') {
         loader = () => import('$themes/zen/index.svelte');
+    } else if (__MOIRE_THEME__ === 'cinema') {
+        loader = () => import('$themes/cinema/index.svelte');
     } else {
         loader = () => import('$themes/receipt/index.svelte');
     }

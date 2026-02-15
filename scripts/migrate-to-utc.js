@@ -18,6 +18,27 @@ function normalizeUtcOffset(offset) {
     return `${sign}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 }
 
+/**
+ * Recursively gets all markdown files in a directory
+ */
+function getAllFiles (dirPath, arrayOfFiles) {
+  const files = fs.readdirSync(dirPath);
+
+  arrayOfFiles = arrayOfFiles || [];
+
+  files.forEach(function (file) {
+    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+      arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
+    } else {
+      if (file.endsWith('.md')) {
+        arrayOfFiles.push(path.join(dirPath, file));
+      }
+    }
+  });
+
+  return arrayOfFiles;
+}
+
 async function migrate() {
     const args = process.argv.slice(2);
     const offsetArg = args[0];
@@ -31,19 +52,17 @@ async function migrate() {
     const offset = normalizeUtcOffset(offsetArg);
     console.log(`Migrating memos from offset ${offset} to UTC...`);
 
-    if (!fs.existsSync(MEMOS_DIR)) {
-        console.error(`Memos directory not found at ${MEMOS_DIR}`);
-        return;
-    }
+  console.log(`Checking directory: ${MEMOS_DIR}`);
+  const files = getAllFiles(MEMOS_DIR);
+  console.log(`Found ${files.length} markdown files.`);
 
-    const files = fs.readdirSync(MEMOS_DIR).filter(f => f.endsWith('.md'));
-
-    for (const file of files) {
+  for (const filePath of files) {
+    const file = path.basename(filePath);
         const slug = file.replace('.md', '');
         const match = slug.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/);
         
         if (!match) {
-            console.log(`Skipping non-timestamped file: ${file}`);
+          console.log(`Skipping non-timestamped file: ${filePath}`);
             continue;
         }
 
@@ -52,13 +71,14 @@ async function migrate() {
         const date = new Date(localIso);
 
         if (isNaN(date.getTime())) {
-            console.error(`Invalid date for file: ${file}`);
+          console.error(`Invalid date for file: ${filePath}`);
             continue;
         }
 
         // Generate UTC timestamp YYYYMMDDHHmmss
         const utcYear = date.getUTCFullYear();
-        const utcMonth = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const utcMonthNum = date.getUTCMonth() + 1;
+    const utcMonth = String(utcMonthNum).padStart(2, '0');
         const utcDay = String(date.getUTCDate()).padStart(2, '0');
         const utcHour = String(date.getUTCHours()).padStart(2, '0');
         const utcMinute = String(date.getUTCMinutes()).padStart(2, '0');
@@ -67,21 +87,34 @@ async function migrate() {
         const newSlug = `${utcYear}${utcMonth}${utcDay}${utcHour}${utcMinute}${utcSecond}`;
         const newFile = `${newSlug}.md`;
 
-        if (file === newFile) {
-            console.log(`File already matches UTC (or offset was 0): ${file}`);
+    // Correct directory based on UTC date
+    const newDirName = `${utcYear}-${utcMonth}`;
+    const newDirPath = path.join(MEMOS_DIR, newDirName);
+    const newPath = path.join(newDirPath, newFile);
+
+    if (filePath === newPath) {
+      console.log(`File already matches UTC and correct directory: ${file}`);
             continue;
         }
-
-        const oldPath = path.join(MEMOS_DIR, file);
-        const newPath = path.join(MEMOS_DIR, newFile);
 
         if (fs.existsSync(newPath)) {
-            console.warn(`Warning: Destination file ${newFile} already exists. Skipping ${file} to avoid overwrite.`);
+          console.warn(`Warning: Destination file ${newPath} already exists. Skipping ${filePath} to avoid overwrite.`);
             continue;
         }
 
-        console.log(`Renaming: ${file} -> ${newFile}`);
-        fs.renameSync(oldPath, newPath);
+    if (!fs.existsSync(newDirPath)) {
+      fs.mkdirSync(newDirPath, { recursive: true });
+    }
+
+    console.log(`Moving: ${filePath} -> ${newPath}`);
+    fs.renameSync(filePath, newPath);
+
+    // Try to remove old directory if empty
+    const oldDirPath = path.dirname(filePath);
+    if (oldDirPath !== MEMOS_DIR && fs.readdirSync(oldDirPath).length === 0) {
+      console.log(`Removing empty directory: ${oldDirPath}`);
+      fs.rmdirSync(oldDirPath);
+    }
     }
 
     console.log('Migration complete!');

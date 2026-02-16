@@ -25,12 +25,12 @@
 <svelte:window onscroll={handleScroll} />
 
 <div
-  class="min-h-screen max-w-2xl mx-auto p-4 sm:p-8 selection:bg-[var(--text-color)]/20 selection:text-[var(--bg-color)]"
+  class="min-h-screen max-w-2xl mx-auto p-4 sm:p-8 selection:bg-[var(--text-color)]/50 selection:text-[var(--bg-color)]"
 >
   <header class="mb-12 flex items-end justify-between border-b-2 border-[var(--text-color)] px-2 pb-4 relative">
     <div>
       <h1
-        class="text-4xl text-[var(--accent-color)] drop-shadow-[3px_3px_0_var(--border-color)] uppercase tracking-wider font-black"
+        class="text-4xl text-[var(--accent-color)] drop-shadow-[3px_3px_0_var(--border-color)]/50 uppercase tracking-wider font-black"
       >
         {config.title}
       </h1>
@@ -58,7 +58,7 @@
   <div class="mx-auto grid grid-cols-1 gap-8 2xl:grid-cols-2" data-selected-tag={memoList.selectedTag}>
     {#each memoList.visibleMemos as memo}
       <article
-        class="window-frame relative flex flex-col bg-[var(--card-bg)] border-2 border-[var(--border-color)] shadow-[4px_4px_0_0_var(--accent-color)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--accent-color)] transition-all duration-200 rounded-xl overflow-hidden"
+        class="window-frame relative flex flex-col bg-[var(--card-bg)] border-2 border-[var(--border-color)] shadow-[4px_4px_0_0_var(--accent-color)]/50 hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--accent-color)]/50 transition-all duration-200 rounded-xl overflow-hidden"
         id={memo.slug}
       >
         <div
@@ -95,7 +95,9 @@
                         [&_th]:bg-[var(--bg-color)] [&_th]:text-[var(--text-color)] [&_th]:p-2 [&_th]:border-b-2 [&_th]:border-[var(--border-color)] [&_th]:text-center
                         [&_td]:p-2 [&_td]:border-b [&_td]:border-[var(--border-color)] [&_td]:text-center
                         [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--accent-color)] [&_blockquote]:bg-[var(--bg-color)] [&_blockquote]:py-2 [&_blockquote]:px-4 [&_blockquote]:my-4 [&_blockquote]:italic [&_blockquote]:text-[0.9rem] [&_blockquote]:text-[var(--text-color)] [&_blockquote]:rounded-r-lg
-                        [&_.tag-link]:bg-[var(--bg-color)] [&_.tag-link]:text-[var(--accent-color)] [&_.tag-link]:px-2 [&_.tag-link]:py-0.5 [&_.tag-link]:rounded-full [&_.tag-link]:text-[10px] [&_.tag-link]:no-underline [&_.tag-link]:mx-0.5 [&_.tag-link]:font-bold [&_.tag-link]:transition-all [&_.tag-link]:hover:scale-110
+                        [&_pre]:bg-[var(--bg-color)] [&_pre]:border-2 [&_pre]:border-[var(--border-color)] [&_pre]:p-3 [&_pre]:overflow-x-auto [&_pre]:my-4 [&_pre]:text-sm
+                        [&_pre_code]:bg-transparent [&_pre_code]:text-[var(--text-color)] [&_pre_code]:p-0
+                        [&_.tag-link]:bg-[var(--bg-color)] [&_.tag-link]:text-[var(--accent-color)] [&_.tag-link]:px-2 [&_.tag-link]:py-0.5 [&_.tag-link]:rounded-full [&_.tag-link]:text-[11px] [&_.tag-link]:no-underline [&_.tag-link]:mx-0.5 [&_.tag-link]:font-bold [&_.tag-link]:transition-all [&_.tag-link]:hover:scale-110
                         "
              onclick={(e) => {
                 const target = e.target as HTMLElement;
@@ -132,6 +134,12 @@
       </button>
     </div>
   {/if}
+
+  <footer class="mt-16 pb-2 text-center text-[10px] font-bold tracking-widest text-[var(--text-color)] opacity-70">
+      <p class="uppercase">
+          © {new Date().getFullYear()} {config.author} <span class="mx-1 text-[var(--accent-color)]">♥</span> synced from Apple Notes and powered by <a href="https://moire.blog/" target="_blank" class="hover:text-[var(--accent-color)] transition-colors border-b-2 border-dotted border-[var(--text-color)] hover:border-[var(--accent-color)]">MOIRE.BLOG</a>
+      </p>
+  </footer>
 
   <div class="fixed bottom-8 right-8 z-50 hidden md:block">
     <div

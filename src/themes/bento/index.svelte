@@ -65,7 +65,7 @@
                    [&_h4]:text-[0.95rem] [&_h4]:font-semibold [&_h4]:mb-1 [&_h4]:mt-2 [&_h4]:text-slate-700
                    [&_h5]:text-[0.85rem] [&_h5]:font-medium [&_h5]:italic [&_h5]:mb-1 [&_h5]:text-slate-700
                    [&_p]:my-4 [&_p]:text-slate-600 tracking-wider 
-                   [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-4
+                   [&_ul]:list-disc [&_ul]:pl-5
                    [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-4
                    [&_li]:text-slate-600 [&_li]:my-1
                    [&_li::marker]:text-slate-400
@@ -75,6 +75,9 @@
                    [&_th]:border-b-2 [&_th]:border-slate-200 [&_th]:border-dashed [&_th]:text-center [&_th]:py-1 [&_th]:font-semibold [&_th]:text-slate-700
                    [&_td]:py-1 [&_td]:px-1 [&_td]:border-b [&_td]:border-slate-100 [&_td]:border-dashed [&_td]:text-slate-600 [&_td]:text-center
                    [&_blockquote]:border-l-2 [&_blockquote]:border-slate-300/70 [&_blockquote]:pl-4 [&_blockquote]:py-2 [&_blockquote]:my-3 [&_blockquote_p]:my-1 [&_blockquote]:text-slate-600 [&_blockquote]:bg-white/30 [&_blockquote]:rounded-r-lg
+                   [&_code]:text-[0.85rem] [&_code]:bg-slate-100 [&_code]:text-slate-700 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md [&_code]:font-mono
+                   [&_pre]:bg-slate-50/50 [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:border [&_pre]:border-slate-200/50 [&_pre]:overflow-x-auto [&_pre]:my-4 [&_pre]:text-sm
+                   [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-slate-700
                    [&_.tag-link]:rounded-full [&_.tag-link]:px-3 [&_.tag-link]:py-1 [&_.tag-link]:text-xs [&_.tag-link]:font-medium [&_.tag-link]:tracking-wide [&_.tag-link]:transition-all [&_.tag-link]:bg-white/40 [&_.tag-link]:text-slate-600 [&_.tag-link]:no-underline [&_.tag-link]:mx-0.5 [&_.tag-link:hover]:bg-white/80 [&_.tag-link:hover]:text-slate-800"
              onclick={(e) => {
                 const target = e.target as HTMLElement;
@@ -108,6 +111,9 @@
       </button>
     </div>
   {/if}
+  <footer class="mt-20 text-center text-xs mx-5 tracking-wide text-slate-500 opacity-80">
+    <p>© {new Date().getFullYear()} {config.author} , synced from Apple Notes and powered by <a href="https://moire.blog/" target="_blank" class="hover:text-slate-600 transition-colors">Moire</a></p>
+  </footer>
 </div>
 
 <style>
